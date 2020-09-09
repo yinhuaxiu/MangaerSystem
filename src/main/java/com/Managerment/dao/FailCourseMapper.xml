@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Managerment.dao.FailCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.Managerment.pojo.FailCourse" >
+    <id column="fail_course_id" property="failCourseId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fail_course_id, student_id, student_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fail_course
+    where fail_course_id = #{failCourseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fail_course
+    where fail_course_id = #{failCourseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Managerment.pojo.FailCourse" >
+    insert into fail_course (fail_course_id, student_id, student_name
+      )
+    values (#{failCourseId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.Managerment.pojo.FailCourse" >
+    insert into fail_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="failCourseId != null" >
+        fail_course_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="failCourseId != null" >
+        #{failCourseId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Managerment.pojo.FailCourse" >
+    update fail_course
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fail_course_id = #{failCourseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Managerment.pojo.FailCourse" >
+    update fail_course
+    set student_id = #{studentId,jdbcType=INTEGER},
+      student_name = #{studentName,jdbcType=VARCHAR}
+    where fail_course_id = #{failCourseId,jdbcType=INTEGER}
+  </update>
+  <select id="getFailCourseList" resultType="com.Managerment.pojo.FailCourse">
+    SELECT *
+    FROM fail_course
+  </select>
+  <select id="findFailCourseByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.FailCourse">
+    select * from fail_course limit 5 offset #{offset}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from fail_course
+  </select>
+</mapper>

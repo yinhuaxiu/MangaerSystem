@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Managerment.dao.AcademyMapper" >
+  <resultMap id="BaseResultMap" type="com.Managerment.pojo.Academy" >
+    <id column="academy_id" property="academyId" jdbcType="INTEGER" />
+    <result column="academy_name" property="academyName" jdbcType="VARCHAR" />
+    <result column="academy_number" property="academyNumber" jdbcType="INTEGER" />
+    <result column="dean_name" property="deanName" jdbcType="VARCHAR" />
+    <result column="dean_tel" property="deanTel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    academy_id, academy_name, academy_number, dean_name, dean_tel
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from academy
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from academy
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Managerment.pojo.Academy" >
+    insert into academy (academy_id, academy_name, academy_number, 
+      dean_name, dean_tel)
+    values (#{academyId,jdbcType=INTEGER}, #{academyName,jdbcType=VARCHAR}, #{academyNumber,jdbcType=INTEGER}, 
+      #{deanName,jdbcType=VARCHAR}, #{deanTel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Managerment.pojo.Academy" >
+    insert into academy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="academyId != null" >
+        academy_id,
+      </if>
+      <if test="academyName != null" >
+        academy_name,
+      </if>
+      <if test="academyNumber != null" >
+        academy_number,
+      </if>
+      <if test="deanName != null" >
+        dean_name,
+      </if>
+      <if test="deanTel != null" >
+        dean_tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="academyId != null" >
+        #{academyId,jdbcType=INTEGER},
+      </if>
+      <if test="academyName != null" >
+        #{academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="academyNumber != null" >
+        #{academyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deanName != null" >
+        #{deanName,jdbcType=VARCHAR},
+      </if>
+      <if test="deanTel != null" >
+        #{deanTel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Managerment.pojo.Academy" >
+    update academy
+    <set >
+      <if test="academyName != null" >
+        academy_name = #{academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="academyNumber != null" >
+        academy_number = #{academyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deanName != null" >
+        dean_name = #{deanName,jdbcType=VARCHAR},
+      </if>
+      <if test="deanTel != null" >
+        dean_tel = #{deanTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Managerment.pojo.Academy" >
+    update academy
+    set academy_name = #{academyName,jdbcType=VARCHAR},
+      academy_number = #{academyNumber,jdbcType=INTEGER},
+      dean_name = #{deanName,jdbcType=VARCHAR},
+      dean_tel = #{deanTel,jdbcType=VARCHAR}
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </update>
+  <select id="getAcademyList" resultType="com.Managerment.pojo.Academy">
+    SELECT *
+    FROM academy
+  </select>
+  <select id="findAcademyByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Academy">
+    select * from academy limit 5 offset #{offset}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from academy
+  </select>
+
+  <select id="getAcademyById" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Academy">
+    SELECT *
+    FROM academy
+    WHERE academy_id = #{academyid}
+  </select>
+  <update id="updateAcademy" parameterType="com.Managerment.pojo.Academy">
+    UPDATE academy
+    SET academy_name = #{academyName},
+        academy_number = #{academyNumber},
+        dean_name = #{deanName},
+        dean_tel = #{deanTel}
+    WHERE academy_id = #{academyId}
+  </update>
+
+  <insert id="addAcademy" parameterType="com.Managerment.pojo.Academy">
+    <selectKey keyProperty="academyId" keyColumn="academy_id" resultType="java.lang.Integer" order="AFTER">
+      select last_insert_id();
+    </selectKey>
+    INSERT INTO academy(academy_name,academy_number,dean_name,dean_tel)
+                VALUES (#{academyName},#{academyNumber},#{deanName},#{deanTel})
+  </insert>
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Managerment.dao.GradeMapper">
+  <resultMap id="BaseResultMap" type="com.Managerment.pojo.Grade">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    grade_id, grade_name, grade_number, employmengt_rate, postgrade_rate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from grade
+    where grade_id = #{gradeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from grade
+    where grade_id = #{gradeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Managerment.pojo.Grade">
+    insert into grade (grade_id, grade_name, grade_number,
+      employmengt_rate, postgrade_rate)
+    values (#{gradeId,jdbcType=INTEGER}, #{gradeName,jdbcType=VARCHAR}, #{gradeNumber,jdbcType=INTEGER},
+      #{employmengtRate,jdbcType=DOUBLE}, #{postgradeRate,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Managerment.pojo.Grade">
+    insert into grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gradeId != null">
+        grade_id,
+      </if>
+      <if test="gradeName != null">
+        grade_name,
+      </if>
+      <if test="gradeNumber != null">
+        grade_number,
+      </if>
+      <if test="employmengtRate != null">
+        employmengt_rate,
+      </if>
+      <if test="postgradeRate != null">
+        postgrade_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gradeId != null">
+        #{gradeId,jdbcType=INTEGER},
+      </if>
+      <if test="gradeName != null">
+        #{gradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeNumber != null">
+        #{gradeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="employmengtRate != null">
+        #{employmengtRate,jdbcType=DOUBLE},
+      </if>
+      <if test="postgradeRate != null">
+        #{postgradeRate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Managerment.pojo.Grade">
+    update grade
+    <set>
+      <if test="gradeName != null">
+        grade_name = #{gradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeNumber != null">
+        grade_number = #{gradeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="employmengtRate != null">
+        employmengt_rate = #{employmengtRate,jdbcType=DOUBLE},
+      </if>
+      <if test="postgradeRate != null">
+        postgrade_rate = #{postgradeRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where grade_id = #{gradeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Managerment.pojo.Grade">
+    update grade
+    set grade_name = #{gradeName,jdbcType=VARCHAR},
+      grade_number = #{gradeNumber,jdbcType=INTEGER},
+      employmengt_rate = #{employmengtRate,jdbcType=DOUBLE},
+      postgrade_rate = #{postgradeRate,jdbcType=DOUBLE}
+    where grade_id = #{gradeId,jdbcType=INTEGER}
+  </update>
+  <select id="getGradeList" resultType="com.Managerment.pojo.Grade">
+    SELECT *
+    FROM grade
+  </select>
+  <select id="findGradeByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Grade">
+    select * from grade limit 5 offset #{offset}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from grade
+  </select>
+
+  <select id="getGradeById" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Grade">
+    SELECT *
+    FROM grade
+    WHERE grade_id = #{gradeid}
+  </select>
+  <update id="updateGrade" parameterType="com.Managerment.pojo.Grade">
+    UPDATE grade
+    SET grade_name = #{gradeName},
+        grade_number = #{gradeNumber},
+        employmengt_rate = #{employmengtRate},
+        postgrade_rate = #{postgradeRate}
+    WHERE grade_id = #{gradeId}
+  </update>
+  <insert id="addGrade" parameterType="com.Managerment.pojo.Grade">
+    <selectKey keyProperty="gradeId" keyColumn="grade_id" resultType="java.lang.Integer" order="AFTER">
+      select last_insert_id();
+    </selectKey>
+    INSERT INTO grade(grade_name,grade_number,employmengt_rate,postgrade_rate)
+                VALUES (#{gradeName},#{gradeNumber},#{employmengtRate},#{postgradeRate})
+  </insert>
+
+</mapper>

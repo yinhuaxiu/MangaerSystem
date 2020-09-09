@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Managerment.dao.UserMapper">
+  <select id="selectByName" parameterType="java.lang.String" resultType="com.Managerment.pojo.User">
+    select * from user where user_name=#{username}
+  </select>
+  <select id="findAll" resultType="com.Managerment.pojo.User">
+    select * from user ;
+  </select>
+  <insert id="addUserInformation" parameterType="com.Managerment.pojo.User">
+    <selectKey keyProperty="id" keyColumn="user_id" resultType="java.lang.Integer" order="AFTER">
+      select last_insert_id();
+    </selectKey>
+    insert into user(user_name,user_password)
+    values (#{userName},#{userPassword})
+  </insert>
+  <delete id="deleteUserById" parameterType="java.lang.Integer">
+    delete from user where user_id = #{userid}
+  </delete>
+  <update id="updateUserByUserName" parameterType="com.Managerment.pojo.User">
+    update user set user_password=#{userPassword} where user_name=#{userName}
+  </update>
+  <select id="findUserByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.User">
+    select * from user limit 5 offset #{offset}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from user
+  </select>
+</mapper>

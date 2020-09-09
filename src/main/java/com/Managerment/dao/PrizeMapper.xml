@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Managerment.dao.PrizeMapper" >
+  <resultMap id="BaseResultMap" type="com.Managerment.pojo.Prize" >
+    <id column="prize_id" property="prizeId" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    prize_id, student_id, student_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from prize
+    where prize_id = #{prizeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from prize
+    where prize_id = #{prizeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Managerment.pojo.Prize" >
+    insert into prize (prize_id, student_id, student_name
+      )
+    values (#{prizeId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.Managerment.pojo.Prize" >
+    insert into prize
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prizeId != null" >
+        prize_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prizeId != null" >
+        #{prizeId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Managerment.pojo.Prize" >
+    update prize
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where prize_id = #{prizeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Managerment.pojo.Prize" >
+    update prize
+    set student_id = #{studentId,jdbcType=INTEGER},
+      student_name = #{studentName,jdbcType=VARCHAR}
+    where prize_id = #{prizeId,jdbcType=INTEGER}
+  </update>
+  <select id="getPrizeList" resultType="com.Managerment.pojo.Prize">
+    SELECT *
+    FROM prize
+  </select>
+  <select id="findPrizeByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Prize">
+    select * from prize limit 5 offset #{offset}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from prize
+  </select>
+</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Managerment.dao.ClazzMapper" >
+  <resultMap id="BaseResultMap" type="com.Managerment.pojo.Clazz" >
+    <id column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="class_number" property="classNumber" jdbcType="INTEGER" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="teacher_tel" property="teacherTel" jdbcType="VARCHAR" />
+    <result column="monitor_name" property="monitorName" jdbcType="VARCHAR" />
+    <result column="monitor_tel" property="monitorTel" jdbcType="VARCHAR" />
+    <result column="break_rule_rate" property="breakRuleRate" jdbcType="DOUBLE" />
+    <result column="fail_rate" property="failRate" jdbcType="DOUBLE" />
+    <result column="prize_rate" property="prizeRate" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    class_id, class_name, class_number, teacher_name, teacher_tel, monitor_name, monitor_tel, 
+    break_rule_rate, fail_rate, prize_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from class
+    where class_id = #{classId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from class
+    where class_id = #{classId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.Managerment.pojo.Clazz" >
+    insert into class (class_id, class_name, class_number, 
+      teacher_name, teacher_tel, monitor_name, 
+      monitor_tel, break_rule_rate, fail_rate, 
+      prize_rate)
+    values (#{classId,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, #{classNumber,jdbcType=INTEGER}, 
+      #{teacherName,jdbcType=VARCHAR}, #{teacherTel,jdbcType=VARCHAR}, #{monitorName,jdbcType=VARCHAR}, 
+      #{monitorTel,jdbcType=VARCHAR}, #{breakRuleRate,jdbcType=DOUBLE}, #{failRate,jdbcType=DOUBLE}, 
+      #{prizeRate,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Managerment.pojo.Clazz" >
+    insert into class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="classNumber != null" >
+        class_number,
+      </if>
+      <if test="teacherName != null" >
+        teacher_name,
+      </if>
+      <if test="teacherTel != null" >
+        teacher_tel,
+      </if>
+      <if test="monitorName != null" >
+        monitor_name,
+      </if>
+      <if test="monitorTel != null" >
+        monitor_tel,
+      </if>
+      <if test="breakRuleRate != null" >
+        break_rule_rate,
+      </if>
+      <if test="failRate != null" >
+        fail_rate,
+      </if>
+      <if test="prizeRate != null" >
+        prize_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classNumber != null" >
+        #{classNumber,jdbcType=INTEGER},
+      </if>
+      <if test="teacherName != null" >
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherTel != null" >
+        #{teacherTel,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null" >
+        #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorTel != null" >
+        #{monitorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="breakRuleRate != null" >
+        #{breakRuleRate,jdbcType=DOUBLE},
+      </if>
+      <if test="failRate != null" >
+        #{failRate,jdbcType=DOUBLE},
+      </if>
+      <if test="prizeRate != null" >
+        #{prizeRate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Managerment.pojo.Clazz" >
+    update class
+    <set >
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classNumber != null" >
+        class_number = #{classNumber,jdbcType=INTEGER},
+      </if>
+      <if test="teacherName != null" >
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherTel != null" >
+        teacher_tel = #{teacherTel,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null" >
+        monitor_name = #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorTel != null" >
+        monitor_tel = #{monitorTel,jdbcType=VARCHAR},
+      </if>
+      <if test="breakRuleRate != null" >
+        break_rule_rate = #{breakRuleRate,jdbcType=DOUBLE},
+      </if>
+      <if test="failRate != null" >
+        fail_rate = #{failRate,jdbcType=DOUBLE},
+      </if>
+      <if test="prizeRate != null" >
+        prize_rate = #{prizeRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where class_id = #{classId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Managerment.pojo.Clazz" >
+    update class
+    set class_name = #{className,jdbcType=VARCHAR},
+      class_number = #{classNumber,jdbcType=INTEGER},
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_tel = #{teacherTel,jdbcType=VARCHAR},
+      monitor_name = #{monitorName,jdbcType=VARCHAR},
+      monitor_tel = #{monitorTel,jdbcType=VARCHAR},
+      break_rule_rate = #{breakRuleRate,jdbcType=DOUBLE},
+      fail_rate = #{failRate,jdbcType=DOUBLE},
+      prize_rate = #{prizeRate,jdbcType=DOUBLE}
+    where class_id = #{classId,jdbcType=INTEGER}
+  </update>
+  <select id="getClazzList" resultType="com.Managerment.pojo.Clazz">
+    SELECT *
+    FROM class
+  </select>
+  <select id="findClazzByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Clazz">
+    select * from class limit 5 offset #{offset}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from class
+  </select>
+
+  <select id="getClazzById" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Clazz">
+    SELECT *
+    FROM class
+    WHERE class_id = #{classid}
+  </select>
+  <update id="updateClazz" parameterType="com.Managerment.pojo.Clazz">
+    UPDATE class
+    SET class_name = #{className},
+        class_number = #{classNumber},
+        teacher_name = #{teacherName},
+        teacher_tel = #{teacherTel},
+        monitor_name = #{monitorName},
+        monitor_tel = #{monitorTel},
+        break_rule_rate = #{breakRuleRate},
+        fail_rate = #{failRate},
+        prize_rate = #{prizeRate}
+    WHERE class_id = #{classId}
+  </update>
+
+  <insert id="addClazz" parameterType="com.Managerment.pojo.Clazz">
+    <selectKey keyProperty="classId" keyColumn="class_id" resultType="java.lang.Integer" order="AFTER">
+      select last_insert_id();
+    </selectKey>
+    INSERT INTO class(class_name,class_number,teacher_name,teacher_tel,monitor_name,monitor_tel,break_rule_rate,fail_rate,prize_rate)
+                VALUES (#{className},#{classNumber},#{teacherName},#{teacherTel},#{monitorName},#{monitorTel},#{breakRuleRate},#{failRate},#{prizeRate})
+  </insert>
+
+</mapper>

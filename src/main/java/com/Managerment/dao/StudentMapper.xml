@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Managerment.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.Managerment.pojo.Student">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="clazzId" jdbcType="INTEGER" property="clazzid" />
+    <result column="sn" jdbcType="VARCHAR" property="sn" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    student_id, student_num, student_name, class_name, sex, age, photo, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student
+    where student_id = #{studentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where student_id = #{studentId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.Managerment.pojo.Student">
+  <selectKey keyProperty="studentId" keyColumn="student_id" resultType="java.lang.Integer" order="AFTER">
+    select last_insert_id();
+  </selectKey>
+    insert into student (student_num, student_name,
+      class_name, sex, age,
+      photo, remark,academy_name)
+    values (#{studentNum,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR},
+      #{className,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
+      #{photo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{academyName,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.Managerment.pojo.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="studentNum != null">
+        student_num,
+      </if>
+      <if test="studentName != null">
+        student_name,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentNum != null">
+        #{studentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Managerment.pojo.Student">
+    update student
+    <set>
+      <if test="studentNum != null">
+        student_num = #{studentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null">
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where student_id = #{studentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Managerment.pojo.Student">
+    update student
+    set student_num = #{studentNum,jdbcType=VARCHAR},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      photo = #{photo,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      academy_name = #{academyName,jdbcType=VARCHAR}
+    where student_id = #{studentId,jdbcType=INTEGER}
+  </update>
+  <select id="getStudentList" resultType="com.Managerment.pojo.Student">
+    SELECT *
+    FROM student
+  </select>
+  <select id="findStudentByPage" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Student">
+    select * from student limit 5 offset #{currentPage}
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    select count(*) from student
+  </select>
+  <select id="getStudentById" parameterType="java.lang.Integer" resultType="com.Managerment.pojo.Student">
+    SELECT *
+    FROM student
+    WHERE student_id = #{studentId}
+  </select>
+</mapper>
